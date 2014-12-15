@@ -255,5 +255,20 @@ foreach( $displayMonitors as $monitor )
 	xml_tag_sec("MONITOR", 0);
 }
 xml_tag_sec("MONITOR_LIST", 0);
+
+if (isset($_GET['showGroups']) && ((bool)$_GET['showGroups']) === true) {
+	xml_tag_sec("GROUP_LIST", 1);
+	$groupSql = "SELECT Id,Name,MonitorIds FROM Groups";
+	foreach ( dbFetchAll( $groupSql ) as $group )
+	{
+		xml_tag_sec("GROUP",1);
+		xml_tag_val("ID",$group['Id']);
+		xml_tag_val("NAME",$group['Name']);
+		xml_tag_val("MONITORIDS",$group['MonitorIds']);
+		xml_tag_sec("GROUP",0);
+	}
+	xml_tag_sec("GROUP_LIST", 0);
+}
+
 xml_tag_sec("ZM_XML", 0);
 ?>
